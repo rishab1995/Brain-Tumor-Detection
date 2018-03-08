@@ -7,6 +7,11 @@ class Segment:
         #define number of segments, with default 5
         self.segments=segments
 
+    def noise_removal(self, image):
+        image_noiseless = cv2.medianBlur(image, 3)
+        image_noiseless=cv2.GaussianBlur(image,(7,7),0)
+        return image_noiseless
+
     def kmeans(self,image):
         image=cv2.GaussianBlur(image,(7,7),0)
         vectorized=image.reshape(-1,3)
@@ -23,6 +28,11 @@ class Segment:
         component[label_image==label]=image[label_image==label]
         return component
 
+    def image_gray_scale(self, image):
+        image_gray = cv2.cvtColor( image, cv2.COLOR_RGB2GRAY)
+        return image_gray
+
+
 if __name__=="__main__":
     import argparse
     import sys
@@ -31,21 +41,20 @@ if __name__=="__main__":
     ap.add_argument("-n", "--segments", required = False, type = int,
         help = "# of clusters")
     args = vars(ap.parse_args())
-
     image=cv2.imread(args["image"])
-    if len(sys.argv)==3:
-        
+    cv2.imshow("Original",image) #original image
+
+    if len(sys.argv)==3: 
         seg = Segment()
         label,result= seg.kmeans(image)
     else:
         seg=Segment(args["segments"])
         label,result=seg.kmeans(image)
-        #print(label)
-        #print(result)
-    cv2.imshow("segmented",result)
-    result=seg.extractComponent(image,label,2)
-    regions = measure.regionprops(result, intensity_image=image)
-    #print([r.area for r in regions])
-    print([r.mean_intensity for r in regions])
-    cv2.imshow("extracted",result)
+     
+    cv2.imshow("segmented",result) #image after segmentation
+
+    result=seg.extractComponent(image,label,0)
+    result_img = seg.image_gray_scale(result)
+    
+    cv2.imshow("extracted",result_img)
     cv2.waitKey(0)
