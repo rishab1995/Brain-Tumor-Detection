@@ -1,4 +1,5 @@
 import cv2
+import feature_extraction as fe
 import numpy as np
 from skimage import measure
 
@@ -42,7 +43,7 @@ if __name__=="__main__":
         help = "# of clusters")
     args = vars(ap.parse_args())
     image=cv2.imread(args["image"])
-    cv2.imshow("Original",image) #original image
+    #cv2.imshow("Original",image) #original image
 
     if len(sys.argv)==3: 
         seg = Segment()
@@ -50,11 +51,23 @@ if __name__=="__main__":
     else:
         seg=Segment(args["segments"])
         label,result=seg.kmeans(image)
-     
-    cv2.imshow("segmented",result) #image after segmentation
+
+    #cv2.imshow("segmented",result) #image after segmentation
+
+    #Labeled Gray Scale image
+    label_gray_scale = seg.image_gray_scale(result)
 
     result=seg.extractComponent(image,label,0)
+
+    #Segmented Gray Scale Image.
     result_img = seg.image_gray_scale(result)
+    fe.statistics_features(result_img)
+   	
     
+    #Orignal Gray Scale Image.
+    orig_gray_image = seg.image_gray_scale(image)
+
+    fe.features_set1(label_gray_scale , orig_gray_image)
+
     cv2.imshow("extracted",result_img)
     cv2.waitKey(0)
