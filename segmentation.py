@@ -19,6 +19,7 @@ class Segment:
         vectorized=np.float32(vectorized) 
         criteria=(cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 1.0)
         ret,label,center=cv2.kmeans(vectorized,self.segments,None,criteria,10,cv2.KMEANS_RANDOM_CENTERS)
+        print(center)
         res = center[label.flatten()]
         segmented_image = res.reshape((image.shape))
         return label.reshape((image.shape[0],image.shape[1])),segmented_image.astype(np.uint8)

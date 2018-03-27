@@ -3,8 +3,16 @@ import scipy.stats as ss
 
 def features_set1(image_segmented,original_image):
 	regions = measure.regionprops(image_segmented, intensity_image = original_image)
-	print([r.label for r in regions])
-	print([r.mean_intensity for r in regions])
+	label = [r.label for r in regions]
+	mean_intensity = [r.mean_intensity for r in regions]
+	area = [r.area for r in regions]
+	perimeter = [r.perimeter for r in regions]
+	solidity = [r.solidity for r in regions]
+	print(label)
+	print(mean_intensity)
+	print(area)
+	print(perimeter)
+	print(solidity)
 
 def flattenArray(twodimage):
     arra = flattened_list = [y for x in twodimage for y in x]

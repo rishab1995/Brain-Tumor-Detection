@@ -15,7 +15,7 @@ def segmentation(image):
 	return labels, data_grey
 
 
-im = Image.open("2.jpg")
+im = Image.open("H:\Major Project\Brain Tumor Detection\Brain-Tumor-Detection\TestFile\M7.jpg")
 width , height = im.size
 data = list(im.getdata())
 labels, data_grey = segmentation(im)
@@ -49,6 +49,6 @@ for i in labels:
 	k=k+1
 
 Image.fromarray(np.array(d1).reshape(-1,width)).show()
-#Image.fromarray(np.array(d2).reshape(-1,width)).show()
-#Image.fromarray(np.array(d3).reshape(-1,width)).show()
-#Image.fromarray(np.array(d4).reshape(-1,width)).show()
+Image.fromarray(np.array(d2).reshape(-1,width)).show()
+Image.fromarray(np.array(d3).reshape(-1,width)).show()
+Image.fromarray(np.array(d4).reshape(-1,width)).show()
