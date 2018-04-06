@@ -1,5 +1,8 @@
 from skimage import measure
+from scipy import stats
+from scipy.stats import moment
 import scipy.stats as ss
+
 
 def features_set1(image_segmented,original_image):
 	regions = measure.regionprops(image_segmented, intensity_image = original_image)
@@ -26,7 +29,9 @@ def statistics_features(image_data):
 	print(Kurtosis)
 	Entropy = ss.entropy(image_data)
 	print(Entropy)
-
-
+	variance = stats.tvar(image_data)
+	print(variance)
+	standard_deviation = stats.tstd(image_data)
+	print(standard_deviation)
 
 
